@@ -17,6 +17,9 @@ import java.util.Map;
 @Controller
 public class RequestParamController {
 
+    /**
+        반환 타입이 없으면서 이렇게 응답에 값을 직접 집어넣으면 view 조회 X
+     */
     @RequestMapping("/request-param-v1")
     public void requestParamV1(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
@@ -26,6 +29,12 @@ public class RequestParamController {
         response.getWriter().write("ok");
     }
 
+    /**
+        @RequestParam 사용
+        - 파라미터 이름으로 바인딩
+        @ResponseBody 추가
+        - view 조회를 무시하고, HTTP message body에 직접 해당 내용 입력
+     */
     @ResponseBody
     @RequestMapping("/request-param-v2")
     public String requestParamV2(@RequestParam("username") String memberName,
@@ -42,6 +51,10 @@ public class RequestParamController {
         return "ok";
     }
 
+    /**
+        @RequestParam 사용
+        String, int 등의 단순 타입이면 @RequestParam도 생략 가능
+     */
     @ResponseBody
     @RequestMapping("/request-param-v4")
     public String requestParamV4(String username, int age) {
@@ -49,6 +62,12 @@ public class RequestParamController {
         return "ok";
     }
 
+    /**
+        /request-param-required → username이 없으므로 예외
+        /request-param-required?username= → 빈문자로 통과
+        /request-param-required
+        int age → null을 int에 입력하는 것은 불가능, 따라서 Integer 변경 (또는 다음에 나오는 defaultValue 사용)
+     */
     @ResponseBody
     @RequestMapping("/request-param-required")
     public String requestParamRequired(@RequestParam(required = true) String username,
@@ -57,6 +76,12 @@ public class RequestParamController {
         return "ok";
     }
 
+    /**
+        @RequestParam
+        - defaultValue 사용
+        참고: defaultValue는 빈 문자의 경우에도 적용
+        /request-param-default?username=
+     */
     @ResponseBody
     @RequestMapping("/request-param-default")
     public String requestParamDefault(@RequestParam(defaultValue = "guest") String username,
@@ -72,6 +97,10 @@ public class RequestParamController {
         return "ok";
     }
 
+    /**
+        @ModelAttribute 사용
+        참고: model.addAttribute(helloDate) 코드도 함께 자동 적용됨, 뒤에 model을 설명할 때 자세히 설명
+     */
     @ResponseBody
     @RequestMapping("/model-attribute-v1")
     public String modelAttributeV1(@ModelAttribute HelloData helloData) {
@@ -79,6 +108,11 @@ public class RequestParamController {
         return "ok";
     }
 
+    /**
+         @ModelAttribute 생략 가능
+         String, int 같은 단순 타입 = @RequestParam
+         argument resolver로 지정해둔 타입 외 = @ModelAttribute
+     */
     @ResponseBody
     @RequestMapping("/model-attribute-v2")
     public String modelAttributeV2(HelloData helloData) {

@@ -20,12 +20,14 @@ public class ResponseBodyController {
         response.getWriter().write("ok");
     }
 
+    /**
+        HttpEntity, ResponseEntity(Http Status 추가)
+     */
     @GetMapping("/response-body-string-v2")
     public ResponseEntity<String> responseBodyV2() {
         return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
-    //@ResponseBody
     @GetMapping("/response-body-string-v3")
     public String responseBodyV3() {
         return "ok";
@@ -40,7 +42,6 @@ public class ResponseBodyController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    //@ResponseBody
     @GetMapping("/response-body-json-v2")
     public HelloData responseBodyJsonV2() {
         HelloData helloData = new HelloData();

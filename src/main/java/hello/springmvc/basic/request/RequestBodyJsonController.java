@@ -44,6 +44,10 @@ public class RequestBodyJsonController {
         return "ok";
     }
 
+    /**
+        @RequestBody 생략 불가능 (@ModelAttribute 가 적용되어 버림)
+        HttpMessageConverter 사용 → MappingJackson2HttpMessageConverter
+     */
     @ResponseBody
     @PostMapping("/request-body-json-v3")
     public String requestBodyJsonV3(@RequestBody HelloData helloData) {
@@ -61,6 +65,14 @@ public class RequestBodyJsonController {
         return "ok";
     }
 
+    /**
+         @RequestBody 생략 불가능 (@ModelAttribute 가 적용되어 버림)
+         HttpMessageConverter 사용 → MappingJackson2HttpMessageConverter
+
+        @ResponseBody 사용
+        - 메시지 바디 정보 직접 반환
+        - HttpMessageConverter 사용 → MappingJackson2HttpMessageConverter
+     */
     @ResponseBody
     @PostMapping("/request-body-json-v5")
     public HelloData requestBodyJsonV5(@RequestBody HelloData data) {

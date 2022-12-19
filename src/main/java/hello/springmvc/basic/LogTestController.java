@@ -15,15 +15,14 @@ public class LogTestController {
     public String logTest() {
         String name = "Spring";
 
-        System.out.println("name = " + name);
-
-        log.trace("trace my log ="+name); //연산이 일어나는게 핵심, 쓸모없는 리소스를 사용하게 된다
-
         log.trace("trace log = {}", name);
         log.debug("debug log = {}", name);
         log.info("info log = {}", name);
         log.warn("warn log = {}", name);
         log.error("error log = {}", name);
+
+        //로그를 사용하지 않아도 a+b 계산 로직이 먼저 실행됨, 이런 방식으로 사용하면 X
+        log.debug("String concat log = " + name);
 
         return "ok";
     }
